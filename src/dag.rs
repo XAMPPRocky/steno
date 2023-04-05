@@ -65,7 +65,8 @@ NewtypeFrom! { () pub struct SagaId(Uuid); }
 /// Unique name for a saga [`Action`]
 ///
 /// Each action requires a string name that's unique within an
-/// [`ActionRegistry`].  During normal execution and when recovering sagas after
+/// [`
+`].  During normal execution and when recovering sagas after
 /// a crash, the name is used to link each node in the DAG with the
 /// [`Action`] implementation.
 #[derive(
@@ -184,6 +185,12 @@ impl<UserType: SagaType> ActionRegistry<UserType> {
         name: &ActionName,
     ) -> Result<Arc<dyn Action<UserType>>, ActionRegistryError> {
         self.actions.get(name).cloned().ok_or(ActionRegistryError::NotFound)
+    }
+}
+
+impl<UserType: SagaType> Default for ActionRegistry<UserType> {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
